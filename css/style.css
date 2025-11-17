@@ -2,21 +2,19 @@
     background: url('https://simplonline-v3-prod.s3.eu-west-3.amazonaws.com/media/image/jpg/plan-69159a65c5684763515973.jpg') no-repeat;
     background-size: cover;
     background-position: center;
-    grid-auto-rows :176px ;
-    grid-auto-columns :192px ;
-    display:grid;
-    grid-template-columns: auto;
-
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr ) 116px repeat(2, 1fr);
+    grid-template-rows: repeat(3 ,1fr); 
+    
     grid-template-areas: 
-     ' item1 item2 item3 item4'
-     ' item5 item2 item6 item6'
-     ' item5 item2 item7 item8'
-
-}
+     ' item1 . item2 item3'
+     ' item4 . . . '
+     ' item4 . item5  item6';
+    }
 
 .pecture p , button{
     position:relative;
-    top: 45%; 
+    top: 35%; 
 }
 
 .pecture button{
@@ -30,55 +28,41 @@
 
    .item1{
     grid-area: item1;
-    /* background-color: rgba(0, 255, 0, 0.39);  */
+    /* background-color: rgba(0, 255, 0, 0.39); */
+  
     }
    
    .item2{
     grid-area: item2;
     /* background-color: rgba(40, 220, 220, 0.329);  */
-    width: 156px;
+ 
    }
    .item3{
     grid-area: item3;
     /* background-color: rgba(42, 207, 233, 0.678);  */
-    width:210px;
-    margin-left: -35px;
+ 
 
    }
    .item4{
     grid-area: item4;
-    /*  background-color: rgba(217, 2, 206, 0.632);  */
-    width:210px;
-    margin-left: -20px;
+   
    }
    .item5{
     grid-area: item5;
-    /* background-color: rgba(78, 21, 193, 0.701);  */
-    
+  
    }
 
    .item6{
     grid-area: item6;
-    /* background-color:rgba(255, 0, 0, 0.683);  */
-    width:420px;
-    margin-left: -38px;
+    /* background-color:rgba(255, 0, 0, 0.683);   */
+     
    }
+
+ 
     
    
-   .item7{
-    grid-area: item7;
-    /* background-color: rgba(139, 0, 139, 0.772);  */
-    width:210px;
-    margin-left: -27px;
+  
+   
 
-   }
-    
-   .item8{
-    grid-area: item8;
-     /* background-color: rgba(128, 255, 0, 0.683);  */
-    width:210px;
-    margin-left: -20px;
-     
-    }
     
 
