@@ -11,7 +11,20 @@ openBtn.onclick = () => modal.classList.remove("hidden");
 closeBtn.onclick = () => modal.classList.add("hidden");
 saveData.onclick = () => modal.classList.add("hidden");
 
+// PREVIEW PHOTO
 
+const fileInput = document.getElementById("emp-photo");
+const preview = document.getElementById("preview");
+const textPhoto = document.getElementById("photo");
+
+
+
+textPhoto.addEventListener("input" , changeImage);
+function changeImage(){
+   
+ preview.setAttribute("src",textPhoto.value.trim());
+
+}
 
 // ADD EXPERIENCE (Dynamic Form)
 
@@ -76,12 +89,14 @@ form.addEventListener("submit", (e) => {
     id: Date.now(),
     name: name.value,
     role: role.value,
-    photo: photo.value || "https://via.placeholder.com/100",
+    photo: textPhoto.value,
     email: email.value,
     tel: tel.value,
     experiences,
   };
 
+
+ 
   // Display worker in sidebar
   const card = document.createElement("div");
   card.className = "border p-2 m-2 rounded flex gap-2 items-center";
