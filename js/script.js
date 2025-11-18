@@ -4,9 +4,54 @@
 const modal = document.getElementById("modal-add");
 const openBtn = document.getElementById("btn-add");
 const closeBtn = document.getElementById("close-modal");
+const saveData = document.getElementById('save');
+
 
 openBtn.onclick = () => modal.classList.remove("hidden");
 closeBtn.onclick = () => modal.classList.add("hidden");
+saveData.onclick = () => modal.classList.add("hidden");
+
+
+
+// ADD EXPERIENCE (Dynamic Form)
+
+const expList = document.getElementById("exp-list");
+const addExpBtn = document.getElementById("add-exp");
+
+addExpBtn.addEventListener("click", () => {
+  const cardExp = document.createElement('div');
+  cardExp.className = "border p-6 m-2 bg-gray-100";
+
+  cardExp.innerHTML= `
+
+              <div class="flex justify-between">
+            <p class="font-semibold"> Experience: </p> 
+             <button class=" close-exp  static left-3 top-3 text-black-500 font-bold text-md ">X</button>
+          </div>
+       
+        <label class="font-sans flex flex-col ">Company</label>
+        <input  type="text" class="border p-1 w-60 rounded-md exp-item " required>
+         <label class="font-sans flex flex-col">Role</label>
+        <input  type="text" class="border p-1 w-60 rounded-md exp-item " required>
+         <label class="font-sans flex flex-col">From</label>
+        <input  type="date" class="border p-1 w-60 rounded-md exp-item " required>
+         <label class="font-sans flex flex-col">To</label>
+        <input  type="date" class="border p-1 w-60 rounded-md exp-item" required>
+  
+  
+  `
+expList.append(cardExp);
+
+});
+
+expList.addEventListener('click', (e) => {
+    
+      if(e.target.classList.contains("close-exp")){
+        e.target.parentElement.parentElement.remove();
+      }
+      
+});
+
 
 
 // VALIDATE FORM + CREATE WORKER
@@ -51,11 +96,8 @@ form.addEventListener("submit", (e) => {
 
   stock.appendChild(card);
 
-  // Close modal
-  modal.classList.add("hidden");
 
   // Reset form
   form.reset();
-  preview.classList.add("hidden");
   expList.innerHTML = "<label class='font-semibold'>Expériences</label>";
 });
