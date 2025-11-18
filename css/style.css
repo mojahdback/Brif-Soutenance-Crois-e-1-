@@ -2,6 +2,7 @@
     background: url('https://simplonline-v3-prod.s3.eu-west-3.amazonaws.com/media/image/jpg/plan-69159a65c5684763515973.jpg') no-repeat;
     background-size: cover;
     background-position: center;
+    
     display: grid;
     grid-template-columns: minmax(260px, 1fr ) 116px repeat(2, 1fr);
     grid-template-rows: repeat(3 ,1fr); 
@@ -24,6 +25,7 @@
     border-radius: 6px;
     background-color: rgba(46, 86, 228, 0.884);
     color: azure;
+
 }
 
    .item1{

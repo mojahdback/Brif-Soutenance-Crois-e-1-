@@ -16,15 +16,16 @@
     <h1 class="bg-red-200">  Workspace Staff Manager </h1>
     <section class="main_caontainer w-[95%] h-[90vh]  min-h[100%] border ">
       <div class="flex w-[100%] h-[100%] justify-between ">
-        <div id="sidebar" class="sideBar w-[25%] min-h-[100%] border ">
+        <div id="sidebar" class="sideBar w-[29%] min-h-[100%] border flex flex-col justify-between ">
           <h2 class="text-xl  font-bold  p-[15px] m-[10px] border text-blue-800 font-serif ">Staff Members</h2>
-          <div id="stock">
+        
+          <div id="stock" class="overflow-y-auto h-[70vh] px-2">
 
 
           </div>
-          <div class="flex justify-center pt-65 ">
+          <div class="flex justify-center p-4 border-t ">
             <button id="btn-add"
-              class="font-sans text-xl font-semibold border-[2px] h-10 w-50 rounded-lg bg-blue-500  text-white text-center ">Add
+              class="font-sans text-md font-semibold border-[2px] h-8 w-36 rounded-lg bg-blue-500  text-white text-center ">Add
               New Worker </button>
 
           </div>
@@ -56,16 +57,72 @@
               <p>Vault </p>
               <button> + </button>
             </div>
-
           </div>
-
-
         </div>
-
       </div>
-    
     </section>
   </main>
+  <!-- MODAL ADD WORKER -->
+<div id="modal-add" class="fixed inset-0 bg-black/50 hidden justify-center items-center">
+  <div class="bg-white p-6 rounded-lg w-full max-w-sm max-h-[100vh] overflow-y-auto">
+
+    <!-- Close Button -->
+    <button id="close-modal" class="absolute right-3 top-3 text-red-500 font-bold text-xl">X</button>
+
+    <h2 class="text-xl font-bold text-center mb-4">Add New Worker</h2>
+
+    <!-- Form -->
+    <form id="add-worker-form" class="flex flex-col gap-3">
+
+      <div>
+        <label class="font-semibold">Name</label>
+        <input id="name" type="text" class="border p-2 w-full" required>
+      </div>
+
+      <div>
+        <label class="font-semibold">Role</label>
+        <select id="role" class="border p-2 w-full" required>
+          <option value="">-- Select --</option>
+          <option value="Manager">Manager</option>
+          <option value="Receptionniste">Receptionniste</option>
+          <option value="Technicien IT">Technicien IT</option>
+          <option value="Agent Sécurité">Agent Sécurité</option>
+          <option value="Nettoyage">Nettoyage</option>
+          <option value="Autre">Autre</option>
+        </select>
+      </div>
+           
+      <div>
+        <label class="font-semibold">Photo URL</label>
+        <input id="photo" type="text" class="border p-2 w-full">
+      </div>
+
+      <!-- Preview Photo -->
+       <div id="photo-upload">
+
+          <img id = "preview" class = "w-24 h-24 rounded-full object-cover border mx-auto  " 
+              src= "https://via.placeholder.com/80" alt = "Preview" />
+          <input type="file" id="empPhoto" accept="image/*" class="" />
+
+       </div>
+      
+      <div>
+        <label class="font-semibold">Email</label>
+        <input id="email" type="email" class="border p-2 w-full" required>
+      </div>
+
+      <div>
+        <label class="font-semibold">Téléphone</label>
+        <input id="tel" type="text" class="border p-2 w-full" required>
+      </div>
+
+      
+      <button class="bg-blue-600 text-white p-2 rounded mt-3">Save Worker</button>
+
+    </form>
+   </div>
+</div>
+
 </body>
 
 </html>
