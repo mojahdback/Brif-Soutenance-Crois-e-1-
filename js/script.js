@@ -228,6 +228,22 @@ function renderZones() {
   highlightRequiredZones();  // << added
 }
 
+/* ============================
+   9) HIGHLIGHT REQUIRED ZONES
+============================ */
+
+function highlightRequiredZones() {
+  requiredZones.forEach(zone => {
+    const zoneEl = document.querySelector(zoneMap[zone]);
+    const count = workers.filter(w => w.location === zone).length;
+
+    if (count === 0) {
+      zoneEl.classList.add("empty-required-zone");
+    } else {
+      zoneEl.classList.remove("empty-required-zone");
+    }
+  });
+}
 
 /* ============================
    10) LIMIT CHECK

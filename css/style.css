@@ -82,6 +82,10 @@
 
 
  
+.empty-required-zone {
+  box-shadow: inset 0 0 0 2000px rgba(255, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
 
    
   
