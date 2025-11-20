@@ -157,3 +157,136 @@ function canAccessZone(worker, zoneKey) {
 }
 
 
+
+
+/* ============================
+   7) ROOM ZONES CONFIG
+============================ */
+
+const zoneMap = {
+  conference: ".item1",
+  servers: ".item2",
+  securityRoom: ".item3",
+  reception: ".item4",
+  staffRoom: ".item5",
+  archives: ".item6"
+};
+
+/* Required rooms */
+const requiredZones = ["reception", "servers", "securityRoom", "archives"];
+
+/* Max worker limits */
+const zoneLimits = {
+  conference: 5,
+  servers: 2,
+  securityRoom: 2,
+  reception: 1,
+  staffRoom: 15,
+  archives: 3
+};
+
+/* ============================
+   8) RENDER ZONES
+============================ */
+
+function renderZones() {
+  Object.entries(zoneMap).forEach(([zone, selector]) => {
+    const zoneEl = document.querySelector(selector);
+    const area = zoneEl.querySelector(".room-workers");
+
+    area.innerHTML = "";
+
+    workers
+      .filter(w => w.location === zone)
+      .forEach(w => {
+        const div = document.createElement("div");
+        div.className = "zone-worker flex items-center gap-2 p-2 bg-white shadow rounded";
+
+        div.innerHTML = `
+          <img src="${w.photo}" class="w-10 h-10 rounded-full object-cover" />
+          <p>${w.name}</p>
+          <button data-id="${w.id}"
+                  class="remove-zone bg-red-500 text-white px-2 rounded">
+            X
+          </button>
+        `;
+
+        area.appendChild(div);
+      });
+  });
+
+  highlightRequiredZones();  // << added
+}
+
+
+/* ============================
+   10) LIMIT CHECK
+============================ */
+
+function checkLimit(zone) {
+  const limit = zoneLimits[zone] ?? 9999;
+  const count = workers.filter(w => w.location === zone).length;
+  return count < limit;
+}
+
+/* ============================
+   11) ASSIGN WORKER TO ZONE
+============================ */
+
+const modalRoom = document.getElementById("modal-room");
+const roomStock = document.getElementById("room-stock");
+const closeModalRoom = document.getElementById("close-modal-room");
+
+let currentZone = null;
+
+document.querySelectorAll(".add-item").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    const zoneEl = e.target.closest(".gallery-item");
+
+    currentZone = Object.keys(zoneMap).find(
+      key => zoneEl.matches(zoneMap[key])
+    );
+
+    fillRoomModal();
+    modalRoom.classList.remove("hidden");
+  });
+});
+
+closeModalRoom.onclick = () =>
+  modalRoom.classList.add("hidden");
+
+function fillRoomModal() {
+  roomStock.innerHTML = "";
+
+  workers
+    .filter(w => w.location === "unassigned")
+    .forEach(w => {
+      const btn = document.createElement("button");
+      btn.className = "p-2 bg-blue-100 w-full rounded text-left";
+      btn.textContent = `${w.name} — ${w.role}`;
+
+      btn.onclick = () => {
+        if (!checkLimit(currentZone)) {
+          alert('Room limit reached!');
+          return;
+        }
+
+        w.location = currentZone;
+        modalRoom.classList.add("hidden");
+
+        renderUnassigned();
+        renderZones();
+      };
+
+      roomStock.appendChild(btn);
+    });
+}
+
+
+
+/* ============================
+   INIT
+============================ */
+
+renderUnassigned();
+renderZones();
