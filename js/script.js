@@ -136,7 +136,17 @@ function renderUnassigned() {
     });
 }
 
+/* DELETE worker */
+stock.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-btn")) {
+    const id = Number(e.target.dataset.id);
+    const index = workers.findIndex(w => w.id === id);
+    if (index !== -1) workers.splice(index, 1);
 
+    renderUnassigned();
+    renderZones();
+  }
+});
 
 /* ============================
    ROLE ACCESS RULES
@@ -282,7 +292,20 @@ function fillRoomModal() {
     });
 }
 
+/* ============================
+   12) REMOVE WORKER FROM ROOM
+============================ */
 
+document.body.addEventListener("click", (e) => {
+  if (e.target.classList.contains("remove-zone")) {
+    const id = Number(e.target.dataset.id);
+    const w = workers.find(w => w.id === id);
+    if (w) w.location = "unassigned";
+
+    renderUnassigned();
+    renderZones();
+  }
+});
 
 /* ============================
    INIT
