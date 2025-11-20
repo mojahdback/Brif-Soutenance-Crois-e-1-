@@ -1,118 +1,159 @@
+/******************************************************
+ * WORKSPACE STAFF MANAGER — FINAL MERGED VERSION
+ ******************************************************/
 
-// OPEN / CLOSE MODAL
+/* ============================
+   1) MODAL ADD WORKER
+============================ */
 
 const modal = document.getElementById("modal-add");
-const openBtn = document.getElementById("btn-add");
-const closeBtn = document.getElementById("close-modal");
-const saveData = document.getElementById('save');
+const btnAdd = document.getElementById("btn-add");
+const closeModal = document.getElementById("close-modal");
+const saveBtn = document.getElementById("save");
 
+btnAdd.onclick = () => modal.classList.remove("hidden");
+closeModal.onclick = () => modal.classList.add("hidden");
+saveBtn.onclick = () => modal.classList.add("hidden");
 
-openBtn.onclick = () => modal.classList.remove("hidden");
-closeBtn.onclick = () => modal.classList.add("hidden");
-saveData.onclick = () => modal.classList.add("hidden");
+/* ============================
+   2) PREVIEW PHOTO
+============================ */
 
-// PREVIEW PHOTO
-
-const fileInput = document.getElementById("emp-photo");
 const preview = document.getElementById("preview");
-const textPhoto = document.getElementById("photo");
+const inputUrl = document.getElementById("photo");
 
+inputUrl.addEventListener("input", () => {
+  preview.src = inputUrl.value.trim();
+});
 
-
-textPhoto.addEventListener("input" , changeImage);
-function changeImage(){
-   
- preview.setAttribute("src",textPhoto.value.trim());
-
-}
-
-// ADD EXPERIENCE (Dynamic Form)
+/* ============================
+   3) EXPERIENCES LOGIC
+============================ */
 
 const expList = document.getElementById("exp-list");
 const addExpBtn = document.getElementById("add-exp");
 
 addExpBtn.addEventListener("click", () => {
-  const cardExp = document.createElement('div');
-  cardExp.className = "border p-6 m-2 bg-gray-100";
+  const card = document.createElement("div");
+  card.className = "exp-card border p-3 rounded bg-gray-100";
 
-  cardExp.innerHTML= `
+  card.innerHTML = `
+    <div class="flex justify-between mb-2">
+      <p class="font-semibold">Experience:</p>
+      <button class="close-exp text-red-600 font-bold">X</button>
+    </div>
 
-              <div class="flex justify-between">
-            <p class="font-semibold"> Experience: </p> 
-             <button class=" close-exp  static left-3 top-3 text-black-500 font-bold text-md ">X</button>
-          </div>
-       
-        <label class="font-sans flex flex-col ">Company</label>
-        <input  type="text" class="border p-1 w-60 rounded-md exp-item " required>
-         <label class="font-sans flex flex-col">Role</label>
-        <input  type="text" class="border p-1 w-60 rounded-md exp-item " required>
-         <label class="font-sans flex flex-col">From</label>
-        <input  type="date" class="border p-1 w-60 rounded-md exp-item " required>
-         <label class="font-sans flex flex-col">To</label>
-        <input  type="date" class="border p-1 w-60 rounded-md exp-item" required>
-  
-  
-  `
-expList.append(cardExp);
+    <label>Company</label>
+    <input type="text" class="border p-1 w-full exp-company">
 
+    <label>Role</label>
+    <input type="text" class="border p-1 w-full exp-role">
+
+    <label>From</label>
+    <input type="date" class="border p-1 w-full exp-from">
+
+    <label>To</label>
+    <input type="date" class="border p-1 w-full exp-to">
+  `;
+
+  expList.appendChild(card);
 });
 
-expList.addEventListener('click', (e) => {
-    
-      if(e.target.classList.contains("close-exp")){
-        e.target.parentElement.parentElement.remove();
-      }
-      
+expList.addEventListener("click", (e) => {
+  if (e.target.classList.contains("close-exp")) {
+    e.target.closest(".exp-card").remove();
+  }
 });
 
+/* ============================
+   4) GLOBAL WORKERS ARRAY
+============================ */
 
+const workers = [];
 
-// VALIDATE FORM + CREATE WORKER
+/* ============================
+   5) FORM SUBMIT
+============================ */
 
 const form = document.getElementById("add-worker-form");
-const stock = document.getElementById("stock"); // where employees appear
-const name = document.getElementById("name");
+const stock = document.getElementById("stock");
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // Simple validation
-//   if (name.value || role.value || email.value || tel.value) {
-//     alert("Please fill all required fields!");
-//     return;
-//   }
-
-  // Collect experiences
-  const experiences = [...document.querySelectorAll(".exp-item")].map(x => x.value);
-
-  // Create worker object
   const worker = {
     id: Date.now(),
-    name: name.value,
-    role: role.value,
-    photo: textPhoto.value,
-    email: email.value,
-    tel: tel.value,
-    experiences,
+    name: document.getElementById("name").value.trim(),
+    role: document.getElementById("role").value,
+    photo: document.getElementById("photo").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    tel: document.getElementById("tel").value.trim(),
+    location: "unassigned",
+    experiences: [...document.querySelectorAll(".exp-card")].map(card => ({
+      company: card.querySelector(".exp-company").value,
+      role: card.querySelector(".exp-role").value,
+      from: card.querySelector(".exp-from").value,
+      to: card.querySelector(".exp-to").value
+    }))
   };
 
-
- 
-  // Display worker in sidebar
-  const card = document.createElement("div");
-  card.className = "border p-2 m-2 rounded flex gap-2 items-center";
-
-  card.innerHTML = `
-      <img src="${worker.photo}" class="w-12 h-12 rounded object-cover">
-      <div>
-        <p class="font-bold">${worker.name}</p>
-        <p class="text-sm">${worker.role}</p>
-      </div>
-  `;
-
-  stock.appendChild(card);
-
-
-  // Reset form
+  workers.push(worker);
+  renderUnassigned();
   form.reset();
-  expList.innerHTML = "<label class='font-semibold'>Expériences</label>";
+  preview.src = "";
+  modal.classList.add("hidden");
 });
+
+/* ============================
+   6) RENDER UNASSIGNED WORKERS
+============================ */
+
+function renderUnassigned() {
+  stock.innerHTML = "";
+
+  workers
+    .filter(r => r.location === "unassigned")
+    .forEach(w => {
+      const card = document.createElement("div");
+      card.className = "border p-2 m-2 rounded flex gap-2 items-center";
+
+      card.innerHTML = `
+        <img src="${w.photo || 'https://via.placeholder.com/60'}"
+             class="w-12 h-12 rounded object-cover" />
+
+        <div class="flex-1">
+          <p class="font-bold text-sm">${w.name}</p>
+          <p class="text-xs">${w.role}</p>
+        </div>
+
+        <button data-id="${w.id}"
+                class="delete-btn bg-red-500 text-white px-2 py-1 rounded text-sm">
+          X
+        </button>
+      `;
+
+      stock.appendChild(card);
+    });
+}
+
+
+
+/* ============================
+   ROLE ACCESS RULES
+============================ */
+
+const roleAccessRules = {
+  Manager: ["conference", "reception", "servers", "securityRoom", "staffRoom", "archives"],
+  Receptionniste: ["reception", "staffRoom"],
+  "Technicien IT": ["servers", "conference", "archives", "staffRoom"],
+  "Agent Sécurité": ["securityRoom", "reception"],
+  Nettoyage: ["conference", "reception", "servers", "securityRoom", "staffRoom", "archives"],
+  Autre: ["staffRoom"]
+};
+
+/* Check if worker can access zone */
+function canAccessZone(worker, zoneKey) {
+  return roleAccessRules[worker.role]?.includes(zoneKey);
+}
+
+

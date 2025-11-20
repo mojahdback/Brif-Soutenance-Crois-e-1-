@@ -31,35 +31,52 @@
           </div>
 
         </div>
+
         <div class=" w-[70%] h-[100%] border flex items-center">
           <div class="pecture w-[100%] h-[90%]">
-            <div class="gallery-item item1 text-center ">
+            <div  class="gallery-item item1 text-center ">
               <p>Conference-room</p>
-              <button> + </button>
+              <div class="room-workers"></div>
+              <button  class="add-item "> + </button>
+             
             </div>
             <div class="gallery-item item2 text-center ">
               <p>Server-Room</p>
-              <button> + </button>
+              <div class="room-workers"></div>
+              <button class="add-item" > + </button>
+            
             </div>
             <div class="gallery-item item3 text-center ">
+           
               <p>Security-room </p>
-              <button> + </button>
+              <div class="room-workers"></div>
+              <button  class="add-item"> + </button>
+            
             </div>
             <div class="gallery-item item4 text-center ">
               <p>Réception-room </p>
-              <button> + </button>
+              <div class="room-workers"></div>
+              <button class="add-item"> + </button>
+             
             </div>
             <div class="gallery-item item5 text-center">
               <p>Staff-room </p>
-              <button> + </button>
+              <div class="room-workers"></div>
+              <button class="add-item"> + </button>
+              
             </div>
             <div class="gallery-item item6 text-center">
               <p>Vault </p>
-              <button> + </button>
+              <div class="room-workers"></div>
+              <button class="add-item"> + </button>
+             
             </div>
           </div>
+        
         </div>
       </div>
+
+     
     </section>
   </main>
   <!-- MODAL ADD WORKER -->
@@ -77,11 +94,13 @@
       <div>
         <label class="font-semibold">Name</label>
         <input id="name" type="text" class="border p-2 w-full" >
+        <p class="error text-red-500 text-sm"></p>
       </div>
 
       <div>
         <label class="font-semibold">Role</label>
         <select id="role" class="border p-2 w-full" >
+          <p class="error text-red-500 text-sm"></p>
           <option value="">-- Select --</option>
           <option value="Manager">Manager</option>
           <option value="Receptionniste">Receptionniste</option>
@@ -95,33 +114,28 @@
       <div>
         <label class="font-semibold">Photo URL</label>
         <input id="photo" type="text" class="border p-2 w-full">
+        <p class="error text-red-500 text-sm"></p>
       </div>
-
       <!-- Preview Photo -->
-       <div id="photo-upload">
-          <!-- <input type="file" id="emp-Photo" accept="image/*" class="block" /> -->
           <img id = "preview" class = "w-24 h-24 rounded-full object-cover border mx-auto " 
-              src= "" alt = "" />
-        
-       </div>
-      
+              src= "" alt = "vide" />
       <div>
         <label class="font-semibold">Email</label>
         <input id="email" type="email" class="border p-2 w-full" >
+        <p class="error text-red-500 text-sm"></p>
       </div>
 
       <div>
         <label class="font-semibold">Téléphone</label>
         <input id="tel" type="text" class="border p-2 w-full" >
+        <p class="error text-red-500 text-sm"></p>
       </div>
 
       <!-- expériences dynamiques -->
       <div id="exp-list" class="flex flex-col gap-2 ">
        
          
-       
       </div>
-
       <button type="button" id="add-exp" class="bg-green-500 text-white p-1 rounded ">
         + Add Experience
       </button>
@@ -129,8 +143,12 @@
       <button  id="save" class="bg-blue-600 text-white p-2 rounded mt-3">Save Worker</button>
 
     </form>
-   </div>
 </div>
+</div>
+
+
+          
+ 
 
 </body>
 
