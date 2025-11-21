@@ -1,10 +1,3 @@
-/******************************************************
- * WORKSPACE STAFF MANAGER — FINAL MERGED VERSION
- ******************************************************/
-
-/* ============================
-   1) MODAL ADD WORKER
-============================ */
 
 const modal = document.getElementById("modal-add");
 const btnAdd = document.getElementById("btn-add");
@@ -13,22 +6,17 @@ const saveBtn = document.getElementById("save");
 
 btnAdd.onclick = () => modal.classList.remove("hidden");
 closeModal.onclick = () => modal.classList.add("hidden");
-saveBtn.onclick = () => modal.classList.add("hidden");
+// saveBtn.onclick = () => modal.classList.add("hidden");
 
-/* ============================
-   2) PREVIEW PHOTO
-============================ */
+
 
 const preview = document.getElementById("preview");
 const inputUrl = document.getElementById("photo");
 
+
 inputUrl.addEventListener("input", () => {
   preview.src = inputUrl.value.trim();
 });
-
-/* ============================
-   3) EXPERIENCES LOGIC
-============================ */
 
 const expList = document.getElementById("exp-list");
 const addExpBtn = document.getElementById("add-exp");
@@ -65,22 +53,152 @@ expList.addEventListener("click", (e) => {
   }
 });
 
-/* ============================
-   4) GLOBAL WORKERS ARRAY
-============================ */
 
 const workers = [];
 
-/* ============================
-   5) FORM SUBMIT
-============================ */
+//  FORM SUBMIT
+
 
 const form = document.getElementById("add-worker-form");
 const stock = document.getElementById("stock");
 
+
+
+const nameError = document.getElementById('name-error');
+const roleError = document.getElementById('role-error');
+const emailError = document.getElementById('email-error');
+const telError = document.getElementById('tel-error');
+const photoError = document.getElementById('photo-error');
+const saveData = document.getElementById('save');
+
+
+
+
+
+function validateForm() {
+  let isValid = true;
+
+  const name = document.getElementById("name").value.trim();
+  const role = document.getElementById("role").value.trim();
+  const photo = document.getElementById("photo").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const tel = document.getElementById("tel").value.trim();
+  
+
+
+  if (name.length < 3 || name.split(" ").length < 2) {
+    nameError.textContent = "Veuillez entrer un nom complet (≥ 3 caractères)";
+    nameError.style.color = "red";
+    isValid = false;
+  } else {
+    nameError.textContent = "valid";
+    nameError.style.color = "green";
+  }
+
+  if (role === "") {
+    roleError.textContent = "Veuillez choisir un rôle";
+    roleError.style.color = "red";
+    isValid = false;
+  } else {
+    roleError.textContent = "valid";
+    roleError.style.color = "green";
+  }
+
+  if (photo === "") {
+    photoError.textContent = "Veuillez entrer une URL de photo";
+    photoError.style.color = "red";
+    isValid = false;
+  } else {
+    photoError.textContent = "valid";
+    photoError.style.color = "green";
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    emailError.textContent = "Email invalide";
+    emailError.style.color = "red";
+    isValid = false;
+  } else {
+    emailError.textContent = "valid";
+    emailError.style.color = "green";
+  }
+
+  const telRegex = /^[0-9]{10}$/;
+  if (!telRegex.test(tel)) {
+    telError.textContent = "Numéro invalide (10 chiffres)";
+    telError.style.color = "red";
+    isValid = false;
+  } else {
+    telError.textContent = "valid";
+    telError.style.color = "green";
+  }
+
+    // ========== VALIDATION DES EXPERIENCES ==========
+  const expCards = document.querySelectorAll(".exp-card");
+
+  expCards.forEach((card) => {
+    const company = card.querySelector(".exp-company");
+    const role = card.querySelector(".exp-role");
+    const from = card.querySelector(".exp-from");
+    const to = card.querySelector(".exp-to");
+
+    // COMPANY
+    if (company.value.trim() === "") {
+      company.classList.add("border-red-700");
+      isValid = false;
+    } else {
+      company.classList.remove("border-red-700");
+    }
+
+    // ROLE
+    if (role.value.trim() === "") {
+      role.classList.add("border-red-700");
+      isValid = false;
+    } else {
+      role.classList.remove("border-red-700");
+    }
+
+    // DATES
+    if (from.value === "") {
+      from.classList.add("border-red-700");
+      isValid = false;
+    } else {
+      from.classList.remove("border-red-700");
+    }
+
+    if (to.value === "") {
+      to.classList.add("border-red-700");
+      isValid = false;
+    } else {
+      to.classList.remove("border-red-700");
+    }
+
+    
+    // DATE LOGIC → from <= to
+    if (from.value && to.value && new Date(from.value) > new Date(to.value)) {
+      from.classList.add("border-red-700");
+      to.classList.add("border-red-700");
+      isValid = false;
+    }
+  });
+
+
+
+  return isValid;
+}
+
+saveData.addEventListener("click", (e) => {
+   e.preventDefault();
+    if (!validateForm()) {
+      alert("Veuillez corriger les erreurs dans le formulaire.");
+      return
+    }
+    form.requestSubmit();
+
+});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
   const worker = {
     id: Date.now(),
     name: document.getElementById("name").value.trim(),
@@ -103,10 +221,6 @@ form.addEventListener("submit", (e) => {
   preview.src = "";
   modal.classList.add("hidden");
 });
-
-/* ============================
-   6) RENDER UNASSIGNED WORKERS
-============================ */
 
 function renderUnassigned() {
   stock.innerHTML = "";
@@ -148,16 +262,13 @@ stock.addEventListener("click", (e) => {
   }
 });
 
-/* ============================
-   ROLE ACCESS RULES
-============================ */
 
 const roleAccessRules = {
   Manager: ["conference", "reception", "servers", "securityRoom", "staffRoom", "archives"],
-  Receptionniste: ["reception", "staffRoom"],
-  "Technicien IT": ["servers", "conference", "archives", "staffRoom"],
-  "Agent Sécurité": ["securityRoom", "reception"],
-  Nettoyage: ["conference", "reception", "servers", "securityRoom", "staffRoom", "archives"],
+  Receptionniste: ["reception"],
+  "Technicien IT": ["servers"],
+  "Agent Sécurité": ["securityRoom"],
+  Nettoyage: ["conference", "reception", "servers", "securityRoom", "staffRoom"],
   Autre: ["staffRoom"]
 };
 
@@ -166,12 +277,6 @@ function canAccessZone(worker, zoneKey) {
   return roleAccessRules[worker.role]?.includes(zoneKey);
 }
 
-
-
-
-/* ============================
-   7) ROOM ZONES CONFIG
-============================ */
 
 const zoneMap = {
   conference: ".item1",
@@ -195,9 +300,7 @@ const zoneLimits = {
   archives: 3
 };
 
-/* ============================
-   8) RENDER ZONES
-============================ */
+  //  RENDER ZONES
 
 function renderZones() {
   Object.entries(zoneMap).forEach(([zone, selector]) => {
@@ -228,9 +331,6 @@ function renderZones() {
   highlightRequiredZones();  // << added
 }
 
-/* ============================
-   9) HIGHLIGHT REQUIRED ZONES
-============================ */
 
 function highlightRequiredZones() {
   requiredZones.forEach(zone => {
@@ -245,9 +345,8 @@ function highlightRequiredZones() {
   });
 }
 
-/* ============================
-   10) LIMIT CHECK
-============================ */
+
+ // LIMIT CHECK
 
 function checkLimit(zone) {
   const limit = zoneLimits[zone] ?? 9999;
@@ -255,9 +354,8 @@ function checkLimit(zone) {
   return count < limit;
 }
 
-/* ============================
-   11) ASSIGN WORKER TO ZONE
-============================ */
+
+    // ASSIGN WORKER TO ZONE
 
 const modalRoom = document.getElementById("modal-room");
 const roomStock = document.getElementById("room-stock");
@@ -308,9 +406,6 @@ function fillRoomModal() {
     });
 }
 
-/* ============================
-   12) REMOVE WORKER FROM ROOM
-============================ */
 
 document.body.addEventListener("click", (e) => {
   if (e.target.classList.contains("remove-zone")) {
@@ -323,9 +418,6 @@ document.body.addEventListener("click", (e) => {
   }
 });
 
-/* ============================
-   INIT
-============================ */
 
 renderUnassigned();
 renderZones();
