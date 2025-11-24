@@ -12,13 +12,13 @@
 
 <body>
 
+
+
   <main class="globale_container w-[100%] h-[100%] flex flex-col items-center gap-4">
-    <h1 class="bg-red-200">  Workspace Staff Manager </h1>
-    <section class="main_caontainer w-[95%] h-[90vh]  min-h[100%] border ">
-      <div class="flex w-[100%] h-[100%] justify-between ">
+    <section class="main_container w-[95%] h-[90vh]  min-h-[100%] border ">
+      <div class="container flex w-[100%] h-[100%] justify-between ">
         <div id="sidebar" class="sideBar w-[29%] min-h-[100%] border flex flex-col justify-between ">
           <h2 class="text-xl  font-bold  p-[15px] m-[10px] border text-blue-800 font-serif ">Staff Members</h2>
-        
           <div id="stock" class="overflow-y-auto h-[70vh] px-2">
 
 
@@ -84,9 +84,9 @@
   <div class="bg-white p-6 rounded-lg w-full max-w-sm max-h-[100vh] overflow-y-auto">
 
     <!-- Close Button -->
-    <button id="close-modal" class="absolute right-3 top-3 text-red-500 font-bold text-xl">X</button>
+    <button id="close-modal" class="left-3 top-3 text-red-500 font-bold text-xl">X</button>
 
-    <h2 class="text-xl font-bold text-center mb-4">Add New Worker</h2>
+    <h2 class="text-xl font-bold text-center mb-4 text-blue-500 ">Add New Worker</h2>
 
     <!-- Form -->
     <form id="add-worker-form" class="flex flex-col gap-3">
@@ -158,7 +158,25 @@
            </div>
            <div id="room-stock" class="flex flex-col gap-3 ">
            </div> 
-           </div> 
+           </div>
+           
+           <!-- PROFILE MODAL -->
+           <div id="modal-profile" 
+                 class="fixed inset-0 bg-black/40 hidden justify-center items-center p-4">
+
+                <div class="bg-white rounded-xl p-5 w-full max-w-md shadow-xl animate-scaleIn relative">
+
+                    <!-- Close -->
+                   <button id="close-profile" 
+                       class="absolute top-3 right-3 text-red-500 font-bold text-lg">X</button>
+
+                    <div id="profile-content" class="flex flex-col items-center gap-4">
+                   
+                     </div>
+
+                </div>
+           </div>
+
           
  
 
