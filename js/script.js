@@ -234,7 +234,6 @@ function renderUnassigned() {
           <p class="font-bold text-sm">${w.name}</p>
           <p class="text-xs">${w.role}</p>
         </div>
-
         <button data-id="${w.id}"
                 class="delete-btn bg-red-500 text-white px-2 py-1 rounded text-sm">
           X
@@ -407,6 +406,7 @@ document.body.addEventListener("click", (e) => {
 
     renderUnassigned();
     renderZones();
+
   }
 });
 
@@ -466,6 +466,8 @@ function showProfile(worker) {
 
   profileModal.classList.remove("hidden");
 }
+
+
 
 renderUnassigned();
 renderZones();
