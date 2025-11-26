@@ -52,6 +52,7 @@ addExpBtn.addEventListener("click", () => {
 });
 
 expList.addEventListener("click", (e) => {
+
   if (e.target.classList.contains("close-exp")) {
     e.target.closest(".exp-card").remove();
   }
@@ -113,7 +114,7 @@ function validateForm() {
   }
 
   // EMAIL
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[\w.-]+@[\w.-]+\.\w{2,}$/;
   if (!emailRegex.test(email)) {
     emailError.textContent = "Email invalide.";
     emailError.style.color = "red";
@@ -162,7 +163,7 @@ function validateForm() {
       isValid = false;
     } else to.classList.remove("border-red-700");
 
-    if (from.value && to.value && new Date(from.value) > new Date(to.value)) {
+    if (from.value > to.value ) {
       from.classList.add("border-red-700");
       to.classList.add("border-red-700");
       isValid = false;
@@ -175,15 +176,15 @@ function validateForm() {
 saveBtn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!validateForm()) return;
-  form.requestSubmit();
+  saveData()
 });
 
 
       // FORM SUBMIT
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  
+// form.addEventListener("submit", (e) => {
+//   e.preventDefault();
+  function saveData(){
   const worker = {
     id: Date.now(),
     name: document.getElementById("name").value.trim(),
@@ -209,8 +210,8 @@ form.addEventListener("submit", (e) => {
   expList.innerHTML = "";
   preview.src = "";
   modal.classList.add("hidden");
-});
-
+// });
+  }
       // RENDER UNASSIGNED
 
 const stock = document.getElementById("stock");
@@ -466,8 +467,6 @@ function showProfile(worker) {
 
   profileModal.classList.remove("hidden");
 }
-
-
 
 renderUnassigned();
 renderZones();
