@@ -83,7 +83,7 @@ function validateForm() {
   const tel = document.getElementById("tel").value.trim();
 
   // NAME
-  if (name.length < 3 || name.split(" ").length < 2) {
+  if (name.length < 3 ) {
     nameError.textContent = "Veuillez entrer un nom complet.";
     nameError.style.color = "red";
     isValid = false;
@@ -183,7 +183,7 @@ saveBtn.addEventListener("click", (e) => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
+  
   const worker = {
     id: Date.now(),
     name: document.getElementById("name").value.trim(),
@@ -296,7 +296,7 @@ const zoneLimits = {
 };
 
 function checkLimit(zone) {
-  const limit = zoneLimits[zone] ?? 9999;
+  const limit = zoneLimits[zone];
   const count = workers.filter((w) => w.location === zone).length;
   return count < limit;
 }
@@ -456,7 +456,7 @@ function showProfile(worker) {
 
     <p class="mt-2"><strong>Localisation:</strong>
       <span class="text-green-600">
-        ${worker.location === "unassigned" ? "Non assigné" : worker.location}
+        ${worker.location === "unassigned" ? "Non assigne" : worker.location}
       </span>
     </p>
 
